@@ -1,118 +1,160 @@
+<!DOCTYPE html>
+
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
-    <script src="OrbitControls.js"></script>
-    <script>
-      // ページの読み込みを待つ
-      window.addEventListener('load', init);
 
-      function init() {
-        // サイズを指定
-        const width = 960;
-        const height = 540;
+<head>
+  <title>タグ</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
+  <script src="OrbitControls.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/16.3.5/Tween.min.js"></script>
+<style>
+body {
+  /* set margin to 0 and overflow to hidden, to go fullscreen */
+  margin: 0;
+  overflow: hidden;
+}
+</style>
+</head>
+<body>
 
-        // レンダラーを作成
-        const renderer = new THREE.WebGLRenderer({
-          canvas: document.querySelector('#myCanvas')
-        });
-        renderer.setSize(width, height);
+  <div id="Stats-output">
+</div>
+<!-- Div which will hold the Output -->
+<div id="webgl-output">
+</div>
 
-        // シーンを作成
-        const scene = new THREE.Scene();
+<!-- Javascript code that runs our Three.js examples -->
+<script type="text/javascript">
 
-        // カメラを作成
-        const camera = new THREE.PerspectiveCamera(45, width / height);
-        // カメラの初期座標を設定
-        camera.position.set(0, 0, 1000);
 
-        // カメラコントローラーを作成
-        const controls = new THREE.OrbitControls(camera);
-        controls.autoRotate = true;
+const IMAGE_DATA = [
+   // src, width, height, posX, posY, posZ
+  ["sun.png", 50, 50, 0, 0, 0],
+  ["star.png", 15, 12, 50, 0, 0],
+  ["star.png", 15, 12, 50, 50, 0],
+  ["star.png", 15, 12, -50, 10, 50],
+  ["star.png", 15, 12, -50, 10, -50],
+];
 
-        // helper
-        const gridHelper = new THREE.GridHelper(1000,20); // size, step
-        scene.add(gridHelper);
-        const axisHelper = new THREE.AxisHelper(1000); //軸の長さ　X：赤、Y：緑、z：青
-        scene.add(axisHelper);
 
-        // 箱を作成(原点に作成)
-        var geometry = new THREE.BoxGeometry(300, 300, 300);
-        var material = new THREE.MeshPhongMaterial({ color: 0x0000ff });
-        var box = new THREE.Mesh(geometry, material);
-        scene.add(box);
+class Sample {
 
-        // texture作成
-        var textureLoader = new THREE.TextureLoader();
-        var suntexture = textureLoader.load("img/sun.png");
-        var startexture = textureLoader.load("img/star.png");
+  constructor (opts = {}) {
 
-        // 平面（ポリゴン）を作成
-        var sungeometry = new THREE.PlaneGeometry(200,200);
-        var sunmat = new THREE.MeshBasicMaterial({transparent:true});
-        sunmat.map= suntexture;
-        var sunplane = new THREE.Mesh( sungeometry, sunmat );
-        sunplane.position.set(0, 250, 0);
-        scene.add( sunplane );
+    this.width = window.innerWidth;
+    this.height = window.innerHeight;
+    this.output = opts.output || document.createElement('div');
 
-        // starグループ
-        var stargroup = new THREE.Group();
-        scene.add(stargroup);
+    this.degree = 0;
 
-        var stargeometry = new THREE.PlaneGeometry(150,120);
-        var starmat = new THREE.MeshBasicMaterial({transparent:true});
-        starmat.map= startexture;
+    this.init();
+  }
 
-        var star1plane = new THREE.Mesh( stargeometry, starmat );
-        star1plane.position.set(250, 0, 0);
-        star1plane.rotation.y = 1.5708;
-        stargroup.add( star1plane );
-
-        var star2plane = new THREE.Mesh( stargeometry, starmat );
-        star2plane.position.set(-250, 0, 0);
-        star2plane.rotation.y = 1.5708;
-        stargroup.add( star2plane );
-
-        var star3plane = new THREE.Mesh( stargeometry, starmat );
-        star3plane.position.set(0, 0, 250);
-        stargroup.add( star3plane );
-
-        var star4plane = new THREE.Mesh( stargeometry, starmat );
-        star4plane.position.set(0, 0, -250);
-        stargroup.add( star4plane );
-     
-      　 // 光源（環境光）
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
-        scene.add(ambientLight);
-
-        // 平行光源
-        var directionalLight1 = new THREE.DirectionalLight(0xffffff,0.5);
-        directionalLight1.position.set(1000, 1000, 700);
-        // シーンに追加
-        scene.add(directionalLight1);
-        
-
-        tick();
-
-        // 毎フレーム時に実行されるループイベントです
-        function tick() {
-          // レンダリング
-         // controls.update();
-         stargroup.rotation.y += 0.01;
-          renderer.render(scene, camera);
-
-          sunplane.rotation.setFromRotationMatrix(camera.matrix);
-          //stargroup.rotation.setFromRotationMatrix(camera.matrix);
-          star1plane.rotation.setFromRotationMatrix(camera.matrix);
-          star2plane.rotation.setFromRotationMatrix(camera.matrix);
-          star3plane.rotation.setFromRotationMatrix(camera.matrix);
-          star4plane.rotation.setFromRotationMatrix(camera.matrix);
-          requestAnimationFrame(tick);
-        }
+  init () {
+    { // renderer
+      this.renderer = new THREE.WebGLRenderer({ antialias: true });
+      this.renderer.setClearColor( 0x222222 ); // 背景色
+      this.renderer.setPixelRatio(window.devicePixelRatio || 1);
+      this.renderer.setSize( this.width, this.height );
+      this.output.appendChild( this.renderer.domElement );
+    }
+    { // scene
+      this.scene = new THREE.Scene();
+    }
+    { // lights
+      const ambientLight = new THREE.AmbientLight(0xffffff);
+      this.scene.add(ambientLight);
+    }
+    { // camera
+      const perscamera = new THREE.PerspectiveCamera( 45, this.width / this.height, 1, 10000 ); // fov(視野角),aspect,near,far
+      const orthocamera = new THREE.OrthographicCamera( this.width / -2, this.width / 2, this.height / 2, this.height / -2, 1, 10000 );
+      this.camera = perscamera;
+      this.camera.position.set( 100, 100, 100 );
+      this.camera.lookAt( this.scene.position );
+    }
+    { // helper
+      const gridHelper = new THREE.GridHelper(200,50); // size, step
+      this.scene.add(gridHelper);
+      const axisHelper = new THREE.AxisHelper(200,50);
+      this.scene.add(axisHelper);
+    }
+    { // controls
+      this.controls = new THREE.OrbitControls(this.camera);
+      this.controls.autoRotate = true;
+    }
+    { // texture
+      this.arr = [];
+      for (let [i, src] of IMAGE_DATA.entries()) {
+        const d = IMAGE_DATA[i];
+        const mesh = this.createMesh(d[0], d[1], d[2], d[3], d[4], d[5]);
+        this.scene.add(mesh);
+        this.arr.push(mesh);
       }
-    </script>
-  </head>
-  <body>
-    <canvas id="myCanvas"></canvas>
-  </body>
+    }
+
+    this.render();
+    window.addEventListener('resize', () => {
+        this.onResize();
+    }, false);
+
+  }
+
+  render () {
+    requestAnimationFrame( () => {
+      this.render();
+    });
+    this.controls.update();
+    this.renderer.render( this.scene, this.camera );
+
+    // カメラの向きに回転
+    for (let val of this.arr) {
+      // val.quaternion.copy(this.camera.quaternion);
+      val.rotation.setFromRotationMatrix(this.camera.matrix);
+    }
+
+  }
+
+
+  createMesh (src, width, height, posX, posY, posZ) {
+    const geom = new THREE.PlaneGeometry(width,height,20);
+    const PATH = './img/';
+    const textureLoader = new THREE.TextureLoader();
+    const texture = textureLoader.load(PATH + src);
+    const mat = new THREE.MeshBasicMaterial({transparent:true});
+    mat.map = texture;
+
+    const mesh = new THREE.Mesh(geom, mat);
+    mesh.position.set(posX, posY, posZ);
+
+    return mesh;
+  }
+
+  onResize () {
+    this.camera.aspect = window.innerWidth / window.innerHeight;
+    this.camera.updateProjectionMatrix();
+    this.renderer.setSize( window.innerWidth, window.innerHeight );
+  }
+
+}
+
+
+
+(() => {
+
+  const sample = new Sample({
+    output: document.getElementById('webgl-output')
+  });
+
+})();
+
+
+
+
+
+
+
+
+</script>
+</body>
 </html>

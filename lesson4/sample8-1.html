@@ -27,13 +27,7 @@
         camera.position.set(0, 0, 1000);
 
         // カメラコントローラーを作成
-        const controls = new THREE.OrbitControls(camera);
-
-        // 箱を作成(原点に作成)
-        var geometry = new THREE.BoxGeometry(300, 300, 300);
-        var material = new THREE.MeshPhongMaterial({ color: 0x0000ff });
-        var box = new THREE.Mesh(geometry, material);
-        scene.add(box);
+        const controls = new THREE.OrbitControls(camera,document.body);
   
         // 平行光源1
         var directionalLight1 = new THREE.DirectionalLight(0xffffff);
@@ -46,6 +40,12 @@
         // シーンに追加
         scene.add(directionalLight2);
 
+        // 箱を作成(原点に作成)
+        var geometry = new THREE.BoxGeometry(300, 300, 300);
+        var material = new THREE.MeshPhongMaterial({ color: 0x0000ff });
+        var box = new THREE.Mesh(geometry, material);
+        scene.add(box);
+
         tick();
 
         // 毎フレーム時に実行されるループイベントです
@@ -57,6 +57,7 @@
       }
     </script>
   </head>
+
   <body>
     <canvas id="myCanvas"></canvas>
   </body>
