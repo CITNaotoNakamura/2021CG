@@ -45,7 +45,7 @@
         // テクスチャー読み込み
         var textureLoader = new THREE.TextureLoader();  
         var texture = textureLoader.load("img/tree0.png");
-        var mat = new THREE.MeshLambertMaterial();
+        var mat = new THREE.MeshLambertMaterial({transparent: true});
         mat.map = texture;
 
         // 木を作成(原点に作成)
