@@ -65,6 +65,16 @@
         sprite1.scale.set(100,100,100);
         scene.add(sprite1);
 
+        // 木1をスプライトで作成 
+        var texture2 = textureLoader.load("img/tree2.png");
+        const material2 = new THREE.SpriteMaterial({ map: texture2,});
+
+        const sprite2 = new THREE.Sprite(material2);
+        sprite2.position.x = -100;
+        sprite2.position.y = 0;
+        sprite2.position.z = -100;
+        sprite2.scale.set(100,100,100);
+        scene.add(sprite2);
 
         tick();
         // 毎フレーム時に実行されるループイベントです
