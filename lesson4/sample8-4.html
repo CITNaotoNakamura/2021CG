@@ -42,17 +42,25 @@
         // シーンに追加
         scene.add(directionalLight2);
 
+        const material = new THREE.SpriteMaterial({
+                 map: new THREE.TextureLoader().load("img/tree0.png"),
+        });
+
+        const sprite = new THREE.Sprite(material);
+        scene.add(sprite);
+
+
         // 木0テクスチャー読み込み
-        var textureLoader = new THREE.TextureLoader();  
-        var texture = textureLoader.load("img/tree0.png");
-        texture.needsUpdate = true;
-        var mat0 = new THREE.SpriteMaterial({transparent: true});
-        mat0.map = texture;
+        //var textureLoader = new THREE.TextureLoader();  
+        //var texture = textureLoader.load("img/tree0.png");
+        //texture.needsUpdate = true;
+       // var mat0 = new THREE.SpriteMaterial({transparent: true});
+       // mat0.map = texture;
 
         // 木0を作成(原点に作成)
         //var geometry = new THREE.PlaneGeometry(75, 100);
-        var tree0 = new THREE.Sprite(mat0);
-        scene.add(tree0);
+        //var tree0 = new THREE.Sprite(mat0);
+        //scene.add(tree0);
 
 
         tick();
