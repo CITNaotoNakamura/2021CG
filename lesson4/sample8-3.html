@@ -46,8 +46,8 @@
         var mat = new THREE.MeshLambertMaterial();
         mat.map = texture;
 
-        // 地球を作成(原点に作成)
-        var geometry = new THREE.PlaneGeometry(100, 20);
+        // 木を作成(原点に作成)
+        var geometry = new THREE.PlaneGeometry(50, 100);
         var earth = new THREE.Mesh(geometry, mat);
         scene.add(earth);
 
