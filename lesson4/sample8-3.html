@@ -42,19 +42,51 @@
         // シーンに追加
         scene.add(directionalLight2);
 
-        // テクスチャー読み込み
+        // 木0テクスチャー読み込み
         var textureLoader = new THREE.TextureLoader();  
-        var texture = textureLoader.load("img/tree0.png");
-        var mat = new THREE.MeshLambertMaterial({transparent: true});
-        mat.map = texture;
+        var texture0 = textureLoader.load("img/tree0.png");
+        var mat0 = new THREE.MeshLambertMaterial({transparent: true});
+        mat0.map = texture0;
 
-        // 木を作成(原点に作成)
+        // 木0を作成(原点に作成)
         var geometry = new THREE.PlaneGeometry(75, 100);
-        var earth = new THREE.Mesh(geometry, mat);
-        scene.add(earth);
+        var tree0 = new THREE.Mesh(geometry, mat0);
+        scene.add(tree0);
+
+        // 木1テクスチャー読み込み
+        var textureLoader = new THREE.TextureLoader();  
+        var texture1 = textureLoader.load("img/tree1.png");
+        var mat1 = new THREE.MeshLambertMaterial({transparent: true});
+        mat1.map = texture1;
+
+        // 木1を作成(原点に作成)
+        var tree1 = new THREE.Mesh(geometry, mat1);
+        tree1.position.set(100, 0, 100);
+        scene.add(tree1);
+
+        // 木2テクスチャー読み込み
+        var textureLoader = new THREE.TextureLoader();  
+        var texture2 = textureLoader.load("img/tree2.png");
+        var mat2 = new THREE.MeshLambertMaterial({transparent: true});
+        mat2.map = texture2;
+
+        // 木2を作成(原点に作成)
+        var tree2 = new THREE.Mesh(geometry, mat2);
+        tree2.position.set(-100, 0, 100);
+        scene.add(tree2);
+
+        // 木3テクスチャー読み込み
+        var textureLoader = new THREE.TextureLoader();  
+        var texture3 = textureLoader.load("img/tree3.png");
+        var mat3 = new THREE.MeshLambertMaterial({transparent: true});
+        mat3.map = texture3;
+
+        // 木3を作成(原点に作成)
+        var tree3 = new THREE.Mesh(geometry, mat3);
+        tree3.position.set(0, 0, 100);
+        scene.add(tree3);
 
         tick();
-
         // 毎フレーム時に実行されるループイベントです
         function tick() {
           // レンダリング
