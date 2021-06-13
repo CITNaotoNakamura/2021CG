@@ -35,7 +35,7 @@
 
         // 平行光源を作成
         const directionalLight = new THREE.DirectionalLight(0xffffff);
-        directionalLight.position.set(1, 1, 1);
+        directionalLight.position.set(10, 10, 10);
         scene.add(directionalLight);
         // 環境光を追加
         const ambientLight = new THREE.AmbientLight(0xffffff);
@@ -47,7 +47,7 @@
         loader.setResourcePath('models/house/texture');
         // 3dsファイルのパスを指定
         loader.load('models//house/house.3ds', (object) => {
-          object.scale.set(0.01, 0.01, 0.01);
+          object.scale.set(0.001, 0.001, 0.001);
           // 読み込み後に3D空間に追加
           scene.add(object);
         });
