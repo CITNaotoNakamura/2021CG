@@ -34,9 +34,12 @@
         const controls = new THREE.OrbitControls(camera, canvasElement);
 
         // 平行光源を作成
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.1);
-        directionalLight.position.set(100, 300, 100);
-        //scene.add(directionalLight);
+        const directionalLight1 = new THREE.DirectionalLight(0xffffff, 1.0);
+        directionalLight1.position.set(100, 300, 100);
+        scene.add(directionalLight1);
+        const directionalLight2 = new THREE.DirectionalLight(0xffffff, 0.5);
+        directionalLight2.position.set(-100, 300, -100);
+        scene.add(directionalLight2);
         // 環境光を追加
         const ambientLight = new THREE.AmbientLight(0xffffff, 1.0);
         scene.add(ambientLight);
