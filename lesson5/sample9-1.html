@@ -1,0 +1,69 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
+    <script src="OrbitControls.js"></script>
+    <script>
+      // ページの読み込みを待つ
+      window.addEventListener('load', init);
+
+      function init() {
+        // サイズを指定
+        const width = 960;
+        const height = 540;
+
+        // レンダラーを作成
+        const renderer = new THREE.WebGLRenderer({
+          canvas: document.querySelector('#myCanvas')
+        });
+        renderer.setSize(width, height);
+
+        // シーンを作成
+        const scene = new THREE.Scene();
+
+        // カメラを作成
+        const camera = new THREE.PerspectiveCamera(45, width / height);
+        // カメラの初期座標を設定
+        camera.position.set(0, 0, 1000);
+
+        // カメラコントローラーを作成
+        const controls = new THREE.OrbitControls(camera,document.body);
+  
+        // 平行光源1
+        var directionalLight1 = new THREE.DirectionalLight(0xffffff);
+        directionalLight1.position.set(100, 100, 100);
+        // シーンに追加
+        scene.add(directionalLight1);
+        // 平行光源2
+        var directionalLight2 = new THREE.DirectionalLight(0xffffff);
+        directionalLight2.position.set(-100, 100, 100);
+        // シーンに追加
+        scene.add(directionalLight2);
+
+        // テクスチャー読み込み
+        var textureLoader = new THREE.TextureLoader();  
+        var texture = textureLoader.load("img/earth.png");
+        var mat = new THREE.MeshPhongMaterial();
+        mat.map = texture;
+
+        // 地球を作成(原点に作成)
+        var geometry = new THREE.SphereGeometry(300, 30, 30);
+        var earth = new THREE.Mesh(geometry, mat);
+        scene.add(earth);
+
+        tick();
+
+        // 毎フレーム時に実行されるループイベントです
+        function tick() {
+          // レンダリング
+          renderer.render(scene, camera);
+          requestAnimationFrame(tick);
+        }
+      }
+    </script>
+  </head>
+
+  <body>
+    <canvas id="myCanvas"></canvas>
+  </body>
+</html>
