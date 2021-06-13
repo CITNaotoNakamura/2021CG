@@ -3,8 +3,6 @@
     <meta charset="utf-8" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
     <script src="OrbitControls.js"></script>
-
-
     <script>
       // ページの読み込みを待つ
       window.addEventListener('load', init);
@@ -15,49 +13,41 @@
         const height = 540;
 
         // レンダラーを作成
-        const canvasElement = document.querySelector('#myCanvas');
         const renderer = new THREE.WebGLRenderer({
-          canvas: canvasElement,
+          canvas: document.querySelector('#myCanvas')
         });
-        renderer.setPixelRatio(window.devicePixelRatio);
         renderer.setSize(width, height);
 
         // シーンを作成
         const scene = new THREE.Scene();
 
         // カメラを作成
-        const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 10000);
+        const camera = new THREE.PerspectiveCamera(45, width / height);
         // カメラの初期座標を設定
-        camera.position.set(0, 0, 5);
+        camera.position.set(0, 0, 1000);
 
         // カメラコントローラーを作成
-        const controls = new THREE.OrbitControls(camera, canvasElement);
-
-        // 平行光源を作成
-        const directionalLight = new THREE.DirectionalLight(0xffffff);
-        directionalLight.position.set(1, 1, 1);
-        scene.add(directionalLight);
-        // 環境光を追加
-        const ambientLight = new THREE.AmbientLight(0xffffff);
-        scene.add(ambientLight);
+        const controls = new THREE.OrbitControls(camera,document.body);
+  
+        // 平行光源1
+        var directionalLight1 = new THREE.DirectionalLight(0xffffff);
+        directionalLight1.position.set(100, 100, 100);
+        // シーンに追加
+        scene.add(directionalLight1);
+        // 平行光源2
+        var directionalLight2 = new THREE.DirectionalLight(0xffffff);
+        directionalLight2.position.set(-100, 100, 100);
+        // シーンに追加
+        scene.add(directionalLight2);
 
         // 箱を作成(原点に作成)
-        var geometry = new THREE.BoxGeometry(1, 1, 1);
+        var geometry = new THREE.BoxGeometry(300, 300, 300);
         var material = new THREE.MeshPhongMaterial({ color: 0x0000ff });
         var box = new THREE.Mesh(geometry, material);
         scene.add(box);
 
-        // 3DS形式のモデルデータを読み込む
-        //const loader = new THREE.TDSLoader();
-        // テクスチャーのパスを指定
-        //loader.setResourcePath('models/3ds/portalgun/textures/');
-        // 3dsファイルのパスを指定
-        //loader.load('models/3ds/portalgun/portalgun.3ds', (object) => {
-          // 読み込み後に3D空間に追加
-        //  scene.add(object);
-        //};
-
         tick();
+
         // 毎フレーム時に実行されるループイベントです
         function tick() {
           // レンダリング
@@ -67,6 +57,7 @@
       }
     </script>
   </head>
+
   <body>
     <canvas id="myCanvas"></canvas>
   </body>
