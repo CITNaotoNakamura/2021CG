@@ -47,6 +47,7 @@
         loader.setResourcePath('models/house/texture');
         // 3dsファイルのパスを指定
         loader.load('models//house/house.3ds', (object) => {
+          object.scale.set(0.1, 0.1, 0.1);
           // 読み込み後に3D空間に追加
           scene.add(object);
         });
