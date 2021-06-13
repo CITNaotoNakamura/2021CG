@@ -44,7 +44,7 @@
         // 3DS形式のモデルデータを読み込む
         const loader = new THREE.TDSLoader();
         // テクスチャーのパスを指定
-        //loader.setResourcePath('models/house/texture');
+        loader.setResourcePath('models/house/texture');
         // 3dsファイルのパスを指定
         loader.load('models//house/house.3ds', (object) => {
           // 読み込み後に3D空間に追加
