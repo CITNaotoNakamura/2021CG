@@ -36,9 +36,9 @@
         // 平行光源を作成
         const directionalLight = new THREE.DirectionalLight(0xffffff, 0.1);
         directionalLight.position.set(100, 300, 100);
-        scene.add(directionalLight);
+        //scene.add(directionalLight);
         // 環境光を追加
-        const ambientLight = new THREE.AmbientLight(0xffffff, 5.0);
+        const ambientLight = new THREE.AmbientLight(0xffffff, 1);
         scene.add(ambientLight);
 
         // 3DS形式のモデルデータを読み込む
