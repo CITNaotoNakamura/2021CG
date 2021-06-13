@@ -48,6 +48,7 @@
         // 3dsファイルのパスを指定
         loader.load('models//house/house.3ds', (object) => {
           object.scale.set(0.001, 0.001, 0.001);
+          object.rotate.set(1.72, 0, 0);
           // 読み込み後に3D空間に追加
           scene.add(object);
         });
