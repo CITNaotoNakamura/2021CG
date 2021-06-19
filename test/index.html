@@ -31,22 +31,22 @@ camera.position.set(0, 0, 1000);
 // カメラコントローラーを作成
 const controls = new THREE.OrbitControls(camera,document.body);
 
-   // テクスチャー読み込み
-   var textureLoader = new THREE.TextureLoader();  
-  var texture = textureLoader.load("stone.jpg");
-  var mat = new THREE.MeshPhongMaterial();
-  mat.map = texture;
+ // テクスチャー読み込み
+ //var textureLoader = new THREE.TextureLoader();  
+ // var texture = textureLoader.load("stone.jpg");
+ // var mat = new THREE.MeshPhongMaterial();
+ // mat.map = texture;
   
   // バンプマップ読み込み
-  var bump = textureLoader.load("stone-bump.jpg");
-  mat.bumpMap = bump;
-  mat.bumpscale = 0.2;
+  //var bump = textureLoader.load("stone-bump.jpg");
+  //mat.bumpMap = bump;
+  //mat.bumpscale = 0.2;
 
   // 箱を作成
   var geometry = new THREE.BoxGeometry(1, 1, 1);
-  //var material = new THREE.MeshPhongMaterial({ color: 0xffffff });
-  //var box = new THREE.Mesh(geometry, material);
-  var box = new THREE.Mesh(geometry, mat);
+  var material = new THREE.MeshPhongMaterial({ color: 0xffffff });
+  var box = new THREE.Mesh(geometry, material);
+  //var box = new THREE.Mesh(geometry, mat);
   box.position.z = -5;
   scene.add(box);
 
