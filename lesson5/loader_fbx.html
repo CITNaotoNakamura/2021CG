@@ -3,7 +3,7 @@
     <meta charset="utf-8" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r127/three.min.js"></script>
     <script src="js/controls/OrbitControls.js"></script>
-    <script src="js/loaders/TDSLoader.js"></script>
+    <script src="js/loaders/FBXLoader.js"></script>
 
     <script>
       // ページの読み込みを待つ
@@ -41,12 +41,12 @@
         const ambientLight = new THREE.AmbientLight(0xffffff);
         scene.add(ambientLight);
 
-        // 3DS形式のモデルデータを読み込む
-        const loader = new THREE.TDSLoader();
+        // FBX形式のモデルデータを読み込む
+        const loader = new THREE.FBXLoader();
         // テクスチャーのパスを指定
-        loader.setResourcePath('models/3ds/portalgun/textures/');
-        // 3dsファイルのパスを指定
-        loader.load('models/3ds/portalgun/portalgun.3ds', (object) => {
+        //loader.setResourcePath('models/3ds/portalgun/textures/');
+        // FBXファイルのパスを指定
+        loader.load('models/chair/Chair_1.fbx', (object) => {
           // 読み込み後に3D空間に追加
           scene.add(object);
         });
