@@ -2,7 +2,6 @@
 <html lang="jp">
 	<head>
 		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 
 		<script type="module">
 
@@ -23,9 +22,9 @@
 			animate();
 
 			function init() {
-
-				const container = document.createElement( 'div' );
-				document.body.appendChild( container );
+        		// サイズを指定
+        		const width = 960;
+        		const height = 540;
 
 				camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 2000 );
 				camera.position.set( 100, 200, 300 );
@@ -79,22 +78,19 @@
 
 				} );
 
-				renderer = new THREE.WebGLRenderer( { antialias: true } );
-				renderer.setPixelRatio( window.devicePixelRatio );
-				renderer.setSize( window.innerWidth, window.innerHeight );
+				 // レンダラーを作成
+				const canvasElement = document.querySelector('#myCanvas');
+        		const renderer = new THREE.WebGLRenderer({
+          				canvas: canvasElement,
+						antialias: true,
+        		});
+        		renderer.setPixelRatio(window.devicePixelRatio);
 				renderer.shadowMap.enabled = true;
-				container.appendChild( renderer.domElement );
+        		renderer.setSize(width, height);
 
 				const controls = new OrbitControls( camera, renderer.domElement );
 				controls.target.set( 0, 100, 0 );
 				controls.update();
-
-				window.addEventListener( 'resize', onWindowResize );
-
-				// stats
-				stats = new Stats();
-				container.appendChild( stats.dom );
-
 			}
 
 			//
@@ -117,6 +113,6 @@
 	</head>
 
 	<body>
-
+		<canvas id="myCanvas"></canvas>
 	</body>
 </html>
