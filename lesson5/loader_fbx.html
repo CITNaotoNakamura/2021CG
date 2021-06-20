@@ -41,16 +41,29 @@
         const ambientLight = new THREE.AmbientLight(0xffffff);
         scene.add(ambientLight);
 
-        // FBX形式のモデルデータを読み込む
+        // model
         const loader = new THREE.FBXLoader();
-        // テクスチャーのパスを指定
-        //loader.setResourcePath('models/3ds/portalgun/textures/');
-        // FBXファイルのパスを指定
-        loader.load('models/chair/SambaDancing.fbx', (object) => {
-          // 読み込み後に3D空間に追加
-          object.scale.set(0.001, 0.001, 0.001);
-          scene.add(object);
+				loader.load( 'models/chair/SambaDancing.fbx', function ( object ) {
+
+					mixer = new THREE.AnimationMixer( object );
+
+					const action = mixer.clipAction( object.animations[ 0 ] );
+					action.play();
+
+					object.traverse( function ( child ) {
+
+						if ( child.isMesh ) {
+
+							child.castShadow = true;
+							child.receiveShadow = true;
+
+						}
+
+					}) 
         });
+
+				scene.add( object );
+
 
         tick();
         // 毎フレーム時に実行されるループイベントです
@@ -62,7 +75,9 @@
       }
     </script>
   </head>
+
   <body>
     <canvas id="myCanvas"></canvas>
   </body>
+
 </html>
