@@ -13,6 +13,7 @@
         // サイズを指定
         const width = 960;
         const height = 540;
+        const ang = 0;
 
         // レンダラーを作成
         const renderer = new THREE.WebGLRenderer({
@@ -84,8 +85,9 @@
           // レンダリング
 
           // 角度に応じてカメラの位置を設定
-          camera.position.x = 1000 * Math.sin(0.5);
-          camera.position.z = 1000 * Math.cos(0.5);
+          ang = ang + 0.5;
+          camera.position.x = 1000 * Math.sin(ang);
+          camera.position.z = 1000 * Math.cos(ang);
 
           renderer.render(scene, camera);
           requestAnimationFrame(tick);
