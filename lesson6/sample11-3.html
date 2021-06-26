@@ -31,6 +31,7 @@
         const camera = new THREE.PerspectiveCamera(45, width / height);
         // カメラの初期座標を設定
         camera.position.set(0, 0, 1000);
+        camera.lookAt(new THREE.Vector3(0, 0, 0));
 
         // カメラコントローラーを作成
         //const controls = new THREE.OrbitControls(camera);
