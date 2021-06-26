@@ -1,0 +1,92 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
+    <script src="OrbitControls.js"></script>
+    <script>
+      // ページの読み込みを待つ
+      window.addEventListener('load', init);
+
+      function init() {
+        // サイズを指定
+        const width = 960;
+        const height = 540;
+
+        // レンダラーを作成
+        const renderer = new THREE.WebGLRenderer({
+          canvas: document.querySelector('#myCanvas')
+        });
+        renderer.setSize(width, height);
+        // 光源が関係ないので
+        renderer.setClearColor(0xf9f9f9, 1.0);
+
+        // シーンを作成
+        const scene = new THREE.Scene();
+        // シーン全体のフォグ
+        scene.fog = new THREE.Fog(0xf9f9f9, 800, 2000);
+
+        // カメラを作成
+        const camera = new THREE.PerspectiveCamera(45, width / height);
+        // カメラの初期座標を設定
+        camera.position.set(0, 0, 1000);
+
+        // カメラコントローラーを作成
+        const controls = new THREE.OrbitControls(camera);
+        controls.autoRotate = true;
+
+        // helper
+        const gridHelper = new THREE.GridHelper(1000,20); // size, step
+        scene.add(gridHelper);
+        const axisHelper = new THREE.AxisHelper(1000); //軸の長さ　X：赤、Y：緑、z：青
+        scene.add(axisHelper);
+
+        // マテリアルを作成する
+        const material = new THREE.SpriteMaterial({
+          map: new THREE.TextureLoader().load('img/star.png')
+        });
+        // フォグ（霞）を有効にする
+        material.fog = true;
+
+        // ビルボードを作成
+        for (let i = 0; i < 100; i++) {
+          const sprite = new THREE.Sprite(material);
+          // ランダムな座標に配置
+          sprite.position.x = 1000 * (Math.random() - 0.5);
+          sprite.position.y = 300 * Math.random() - 150;
+          sprite.position.z = 1000 * (Math.random() - 0.5);
+          // 必要に応じてスケールを調整
+          sprite.scale.set(50, 50, 50);
+
+          scene.add(sprite);
+        }
+
+        //球
+        const sphereGeometry = new THREE.SphereGeometry( 150, 32, 32 ); 
+        //半径、垂直方向の分割数、水平方向の分割数
+        const textureLoader = new THREE.TextureLoader();
+        const erathtexture = textureLoader.load("img/earth.png");
+        const sphereMaterial = new THREE. MeshPhongMaterial();
+        sphereMaterial.map = erathtexture;
+        const sphere = new THREE.Mesh( sphereGeometry, sphereMaterial );
+        scene.add( sphere );
+
+        //光源はspriteのみならば不要！
+        // 光源（環境光）
+        const ambientLight = new THREE.AmbientLight(0xffffff, 1.0);
+        scene.add(ambientLight);
+
+        tick();
+
+        // 毎フレーム時に実行されるループイベントです
+        function tick() {
+          // レンダリング
+          renderer.render(scene, camera);
+          requestAnimationFrame(tick);
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <canvas id="myCanvas"></canvas>
+  </body>
+</html>

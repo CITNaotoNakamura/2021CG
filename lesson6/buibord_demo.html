@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+  <title>タグ</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
+  <script src="OrbitControls.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/16.3.5/Tween.min.js"></script>
+<style>
+body {
+  /* set margin to 0 and overflow to hidden, to go fullscreen */
+  margin: 0;
+  overflow: hidden;
+}
+</style>
+</head>
+<body>
+
+  <div id="Stats-output">
+</div>
+<!-- Div which will hold the Output -->
+<div id="webgl-output">
+</div>
+
+<!-- Javascript code that runs our Three.js examples -->
+<script type="text/javascript">
+
+
+const IMAGE_DATA = [
+   // src, width, height, posX, posY, posZ
+  ["sun.png", 50, 50, 0, 0, 0],
+  ["star.png", 15, 12, 50, 0, 0],
+  ["star.png", 15, 12, 50, 50, 0],
+  ["star.png", 15, 12, -50, 10, 50],
+  ["star.png", 15, 12, -50, 10, -50],
+];
+
+
+class Sample {
+
+  constructor (opts = {}) {
+
+    this.width = window.innerWidth;
+    this.height = window.innerHeight;
+    this.output = opts.output || document.createElement('div');
+
+    this.degree = 0;
+
+    this.init();
+  }
+
+  init () {
+    { // renderer
+      this.renderer = new THREE.WebGLRenderer({ antialias: true });
+      this.renderer.setClearColor( 0x222222 ); // 背景色
+      this.renderer.setPixelRatio(window.devicePixelRatio || 1);
+      this.renderer.setSize( this.width, this.height );
+      this.output.appendChild( this.renderer.domElement );
+    }
+    { // scene
+      this.scene = new THREE.Scene();
+    }
+    { // lights
+      const ambientLight = new THREE.AmbientLight(0xffffff);
+      this.scene.add(ambientLight);
+    }
+    { // camera
+      const perscamera = new THREE.PerspectiveCamera( 45, this.width / this.height, 1, 10000 ); // fov(視野角),aspect,near,far
+      const orthocamera = new THREE.OrthographicCamera( this.width / -2, this.width / 2, this.height / 2, this.height / -2, 1, 10000 );
+      this.camera = perscamera;
+      this.camera.position.set( 100, 100, 100 );
+      this.camera.lookAt( this.scene.position );
+    }
+    { // helper
+      const gridHelper = new THREE.GridHelper(200,50); // size, step
+      this.scene.add(gridHelper);
+      const axisHelper = new THREE.AxisHelper(200,50);
+      this.scene.add(axisHelper);
+    }
+    { // controls
+      this.controls = new THREE.OrbitControls(this.camera);
+      this.controls.autoRotate = true;
+    }
+    { // texture
+      this.arr = [];
+      for (let [i, src] of IMAGE_DATA.entries()) {
+        const d = IMAGE_DATA[i];
+        const mesh = this.createMesh(d[0], d[1], d[2], d[3], d[4], d[5]);
+        this.scene.add(mesh);
+        this.arr.push(mesh);
+      }
+    }
+
+    this.render();
+    window.addEventListener('resize', () => {
+        this.onResize();
+    }, false);
+
+  }
+
+  render () {
+    requestAnimationFrame( () => {
+      this.render();
+    });
+    this.controls.update();
+    this.renderer.render( this.scene, this.camera );
+
+    // カメラの向きに回転
+    for (let val of this.arr) {
+      // val.quaternion.copy(this.camera.quaternion);
+      val.rotation.setFromRotationMatrix(this.camera.matrix);
+    }
+
+  }
+
+
+  createMesh (src, width, height, posX, posY, posZ) {
+    const geom = new THREE.PlaneGeometry(width,height,20);
+    const PATH = './img/';
+    const textureLoader = new THREE.TextureLoader();
+    const texture = textureLoader.load(PATH + src);
+    const mat = new THREE.MeshBasicMaterial({transparent:true});
+    mat.map = texture;
+
+    const mesh = new THREE.Mesh(geom, mat);
+    mesh.position.set(posX, posY, posZ);
+
+    return mesh;
+  }
+
+  onResize () {
+    this.camera.aspect = window.innerWidth / window.innerHeight;
+    this.camera.updateProjectionMatrix();
+    this.renderer.setSize( window.innerWidth, window.innerHeight );
+  }
+
+}
+
+
+
+(() => {
+
+  const sample = new Sample({
+    output: document.getElementById('webgl-output')
+  });
+
+})();
+
+
+
+
+
+
+
+
+</script>
+</body>
+</html>

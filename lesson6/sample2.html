@@ -1,0 +1,112 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
+    <script src="OrbitControls.js"></script>
+    <script>
+      // ページの読み込みを待つ
+      window.addEventListener('load', init);
+
+      function init() {
+        // サイズを指定
+        const width = 960;
+        const height = 540;
+
+        // レンダラーを作成
+        const renderer = new THREE.WebGLRenderer({
+          canvas: document.querySelector('#myCanvas')
+        });
+        renderer.setSize(width, height);
+
+        // シーンを作成
+        const scene = new THREE.Scene();
+
+        // カメラを作成
+        const camera = new THREE.PerspectiveCamera(45, width / height);
+        // カメラの初期座標を設定
+        camera.position.set(0, 0, 1000);
+
+        // カメラコントローラーを作成
+        const controls = new THREE.OrbitControls(camera);
+
+        // helper
+        const gridHelper = new THREE.GridHelper(1000,20); // size, step
+        scene.add(gridHelper);
+        const axisHelper = new THREE.AxisHelper(1000); //軸の長さ　X：赤、Y：緑、z：青
+        scene.add(axisHelper);
+
+        // 箱を作成(原点に作成)
+        var geometry = new THREE.BoxGeometry(300, 300, 300);
+        var material = new THREE.MeshPhongMaterial({ color: 0x0000ff });
+        var box = new THREE.Mesh(geometry, material);
+        scene.add(box);
+
+        // texture作成
+        var textureLoader = new THREE.TextureLoader();
+        var suntexture = textureLoader.load("img/sun.png");
+        var startexture = textureLoader.load("img/star.png");
+
+        // 平面（ポリゴン）を作成
+        var sungeometry = new THREE.PlaneGeometry(200,200);
+        var sunmat = new THREE.MeshBasicMaterial({transparent:true});
+        sunmat.map= suntexture;
+        var sunplane = new THREE.Mesh( sungeometry, sunmat );
+        sunplane.position.set(0, 250, 0);
+        scene.add( sunplane );
+
+        var stargeometry = new THREE.PlaneGeometry(150,120);
+        var starmat = new THREE.MeshBasicMaterial({transparent:true});
+        starmat.map= startexture;
+
+        var star1plane = new THREE.Mesh( stargeometry, starmat );
+        star1plane.position.set(250, 0, 0);
+        star1plane.rotation.y = 1.5708;
+        scene.add( star1plane );
+
+        var star2plane = new THREE.Mesh( stargeometry, starmat );
+        star2plane.position.set(-250, 0, 0);
+        star2plane.rotation.y = 1.5708;
+        scene.add( star2plane );
+
+        var star3plane = new THREE.Mesh( stargeometry, starmat );
+        star3plane.position.set(0, 0, 250);
+        scene.add( star3plane );
+
+        var star4plane = new THREE.Mesh( stargeometry, starmat );
+        star4plane.position.set(0, 0, -250);
+        scene.add( star4plane );
+
+
+     
+    
+      　 // 光源（環境光）
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
+        scene.add(ambientLight);
+
+        // 平行光源
+        var directionalLight1 = new THREE.DirectionalLight(0xffffff,0.5);
+        directionalLight1.position.set(1000, 1000, 700);
+        // シーンに追加
+        scene.add(directionalLight1);
+        
+
+        tick();
+
+        // 毎フレーム時に実行されるループイベントです
+        function tick() {
+          // レンダリング
+          renderer.render(scene, camera);
+          sunplane.rotation.setFromRotationMatrix(camera.matrix);
+          star1plane.rotation.setFromRotationMatrix(camera.matrix);
+          star2plane.rotation.setFromRotationMatrix(camera.matrix);
+          star3plane.rotation.setFromRotationMatrix(camera.matrix);
+          star4plane.rotation.setFromRotationMatrix(camera.matrix);
+          requestAnimationFrame(tick);
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <canvas id="myCanvas"></canvas>
+  </body>
+</html>
