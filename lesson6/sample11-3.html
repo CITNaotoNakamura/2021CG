@@ -5,6 +5,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
     <script src="OrbitControls.js"></script>
     <script>
+
       // ページの読み込みを待つ
       window.addEventListener('load', init);
 
@@ -81,9 +82,10 @@
         // 毎フレーム時に実行されるループイベントです
         function tick() {
           // レンダリング
-          // カメラの自動移動
-          camera.rotateY(0.01) ;
-          camera.lookAt(new THREE.Vector3(0, 0, 0));
+
+          // 角度に応じてカメラの位置を設定
+          camera.position.x = 1000 * Math.sin(0.1);
+          camera.position.z = 1000 * Math.cos(0.1);
 
           renderer.render(scene, camera);
           requestAnimationFrame(tick);
