@@ -33,7 +33,7 @@
         camera.position.set(0, 0, 1000);
 
         // カメラコントローラーを作成
-        const controls = new THREE.OrbitControls(camera);
+        //const controls = new THREE.OrbitControls(camera);
         //controls.autoRotate = true;
 
         // helper
@@ -84,8 +84,8 @@
           // レンダリング
 
           // 角度に応じてカメラの位置を設定
-          camera.position.x = 1000 * Math.sin(0.1);
-          camera.position.z = 1000 * Math.cos(0.1);
+          camera.position.x = 1000 * Math.sin(0.5);
+          camera.position.z = 1000 * Math.cos(0.5);
 
           renderer.render(scene, camera);
           requestAnimationFrame(tick);
