@@ -42,8 +42,10 @@
         // グループを作成
         const group = new THREE.Group();
         scene.add(group);
+
+        //個々の物体を作成
         const geometry = new THREE.BoxGeometry(50, 50, 50);
-        const material = new THREE.MeshStandardMaterial();
+        const material = new THREE.MeshStandardMaterial({color: 0x6699FF,});
 
         for (let i = 0; i < 1000; i++) {
           const mesh = new THREE.Mesh(geometry, material);
