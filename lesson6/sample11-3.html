@@ -13,7 +13,6 @@
         // サイズを指定
         const width = 960;
         const height = 540;
-        const ang = 0;
 
         // レンダラーを作成
         const renderer = new THREE.WebGLRenderer({
@@ -84,11 +83,15 @@
         function tick() {
           // レンダリング
 
+          //カメラの制御
+          rot += 0.5; // 毎フレーム角度を0.5度ずつ足していく
+          // ラジアンに変換する
+          const radian = (rot * Math.PI) / 180;
           // 角度に応じてカメラの位置を設定
-          ang = ang + 0.5;
-          camera.position.x = 1000 * Math.sin(ang);
-          camera.position.z = 1000 * Math.cos(ang);
-
+          camera.position.x = 1000 * Math.sin(radian);
+          camera.position.z = 1000 * Math.cos(radian);
+          // 原点方向を見つめる
+          camera.lookAt(new THREE.Vector3(0, 0, 0));
           renderer.render(scene, camera);
           requestAnimationFrame(tick);
         }
