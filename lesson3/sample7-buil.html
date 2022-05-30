@@ -65,6 +65,7 @@
         var plane = new THREE.Mesh(planeGeometry,planeMaterial);
         plane.rotation.set( -Math.PI/2, 0, 0 );
         plane.position.set(0,-1,0);
+        scene.add(plane)
 
 
         // 箱を作成
@@ -77,8 +78,8 @@
         const all = new THREE.Group();
         all.add(plane);//平面を追加
         all.add(box); // ビルを追加
-        all.position.set(0,0,-5);//全体グループの原点の位置
-        scene.add(all); 
+        all.position.set(0,0,0);//全体グループの原点の位置
+        //scene.add(all); 
 
 
         update();
@@ -89,8 +90,8 @@
           renderer.render(scene, camera);
           requestAnimationFrame(update);
 
-        // 全体を回転させる
-        all.rotation.y += 0.01;
+          // 全体を回転させる
+          //all.rotation.y += 0.01;
 
         }
       }
