@@ -64,12 +64,12 @@
         var planeMaterial = new THREE.MeshBasicMaterial({color: 0x00ff00});
         var plane = new THREE.Mesh(planeGeometry,planeMaterial);
         plane.rotation.set( -Math.PI/2, 0, 0 );
-        plane.position.set(0,-1,0);
+        plane.position.set(0,0,0);
 
         // 箱を作成
         var geometry = new THREE.BoxGeometry(1, 2, 0.5);
         var box = new THREE.Mesh(geometry, material);
-        box.position.set(0,0,0);
+        box.position.set(0,1,0);
 
         //全体のオブジェクト
 
