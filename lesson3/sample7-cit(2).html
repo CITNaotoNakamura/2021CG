@@ -54,7 +54,7 @@
         mat.map = texture;
 
         // 箱を作成
-        var geometry1 = new THREE.BoxGeometry(1, 1, 1);
+        var geometry1 = new THREE.BoxGeometry(0.5, 0.5, 0.5);
         //var material = new THREE.MeshPhongMaterial({ color: 0xffffff });
         //var box = new THREE.Mesh(geometry, material);
         var box = new THREE.Mesh(geometry1, mat);
@@ -68,7 +68,7 @@
         scene.add(Sphere);
 
         // 円柱を作成
-        var geometry3 = new THREE.CylinderGeometry( 0, 0.5, 1, 20, 4 );
+        var geometry3 = new THREE.CylinderGeometry( 0.2, 0.5, 0.5, 20, 4 );
         var Cylinder = new THREE.Mesh(geometry3, mat);
         Cylinder.position.set(1.5,0,0);
         scene.add(Cylinder);
