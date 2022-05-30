@@ -58,8 +58,7 @@
         //var material = new THREE.MeshPhongMaterial({ color: 0xffffff });
         //var box = new THREE.Mesh(geometry, material);
         var box = new THREE.Mesh(geometry, mat);
-        box.position.z = -5;
-        box.position.x = -2;
+        box.position.set(1, 0, 0);
         scene.add(box);
 
         // 球を作成
@@ -67,8 +66,7 @@
         //半径、垂直方向の分割数、水平方向の分割数
         //var sphereMaterial = new THREE.MeshBasicMaterial( {color: 0xffff00, wireframe: true } );
         var sphere = new THREE.Mesh( sphereGeometry, mat );
-        sphere.position.set( 0, 0, -5 );
-        sphere.rotation.x = 0.2;
+        sphere.position.set( -1, 0, 0 );
         scene.add( sphere );
 
         update();
