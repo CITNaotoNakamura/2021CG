@@ -56,7 +56,7 @@
         // 木テクスチャー読み込み
         var textureLoader = new THREE.TextureLoader();  
         var texture0 = textureLoader.load("img/tree0.png");
-        //var mat0 = new THREE.MeshLambertMaterial({transparent: true});
+        var mat0 = new THREE.MeshLambertMaterial();
         mat0.map = texture0;
         //
         var mat1 = new THREE.MeshLambertMaterial({transparent: true});
@@ -67,9 +67,10 @@
         var tree0 = new THREE.Mesh(geometry, mat0);
         box.position.set(-1.5,0,0); //位置を指定
         scene.add(tree0);
+        
         // 板ポリ右を作成
         var geometry = new THREE.PlaneGeometry(1, 1);
-        var tree1 = new THREE.Mesh(geometry, mat0);
+        var tree1 = new THREE.Mesh(geometry, mat1);
         box.position.set(1.5,0,0); //位置を指定
         scene.add(tree1);
         
