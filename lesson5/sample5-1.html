@@ -5,8 +5,8 @@
     <script src="https://unpkg.com/three@0.137.4/examples/js/controls/OrbitControls.js"></script>
   </head>
 <body>
- <h1>森を作成</h1>
- ループで２０本の気を作った<br>
+ <h1>いっぱいの玉</h1>
+ ループで1000個の玉を作った<br>
  <script>
       // ページの読み込みを待つ
       window.addEventListener('DOMContentLoaded', init);
@@ -21,19 +21,18 @@
         document.body.appendChild(renderer.domElement);
         renderer.setSize(width, height);
         // 背景の色を設定
-        renderer.setClearColor(0xffffdd);
-
+        renderer.setClearColor(0x000033);
 
         // シーンを作成
         const scene = new THREE.Scene();
 
         // フォグを設定
-        //scene.fog = new THREE.Fog(0x000000, 50, 2000);
+        //scene.fog = new THREE.Fog(0x000000, 50, 200);
 
         // カメラを作成
         const camera = new THREE.PerspectiveCamera(45, width / height);
         // カメラの初期座標を設定
-        camera.position.set(0, 0, 5);
+        camera.position.set(0, 0, 100);
 
         // カメラコントローラーを作成
         const controls = new THREE.OrbitControls(camera, document.body); 
@@ -50,27 +49,30 @@
         scene.add(directionalLight2);
 
         // helper
-        const gridHelper = new THREE.GridHelper(2,10); // size, step
+        const gridHelper = new THREE.GridHelper(200,10); // size, step
         scene.add(gridHelper);
-        const axisHelper = new THREE.AxisHelper(2); //軸の長さ　X：赤、Y：緑、z：青
+        const axisHelper = new THREE.AxisHelper(200); //軸の長さ　X：赤、Y：緑、z：青
         scene.add(axisHelper);
 
-        //個々の物体を定義
-        const geometry = new THREE.SphereGeometry(0.1,10,10);
-        const material = new THREE.MeshStandardMaterial();
+        // グループを作る
+        const group = new THREE.Group();
+        scene.add(group);
 
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < 1000; i++) {
+          // 球体を作成
+          const geometry = new THREE.SphereGeometry(1, 30, 30);
+          const material = new THREE.MeshStandardMaterial();
           const mesh = new THREE.Mesh(geometry, material);
-          mesh.position.x = (Math.random() - 0.5) * 1;
-          mesh.position.y = (Math.random() - 0.5) * 1;
-          mesh.position.z = (Math.random() - 0.5) * 1;
-          //mesh.rotation.x = Math.random() * 2 * Math.PI;
-          //mesh.rotation.y = Math.random() * 2 * Math.PI;
-          //mesh.rotation.z = Math.random() * 2 * Math.PI;
-          // グループに格納する
+
+          // 配置座標を計算
+          mesh.position.x = (Math.random() - 0.5) * 100;
+          mesh.position.y = (Math.random() - 0.5) * 100;
+          mesh.position.z = (Math.random() - 0.5) * 100;
+          // グループに追加する
           group.add(mesh);
         }
         
+
         update();
 
         // 毎フレーム時に実行されるループイベントです
